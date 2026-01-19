@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio – Amanuel Tesfalem</title>
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #0f0f12;
+            --paper: #f5f2ed;
+            --edge: #e6e2dc;
+            --shadow: rgba(0, 0, 0, 0.25);
+            --accent: #ffffff;
+            --text-dark: #1e1e1e;
+            --text-light: #eaeaea;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* ================= UNIQUE NAV BAR ================= */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 40px;
+            z-index: 1000;
+            background: rgba(15, 15, 18, 0);
+            backdrop-filter: blur(0px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0);
+        }
+
+        nav.scrolled {
+            background: rgba(15, 15, 18, 0.02);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(180, 140, 90, 0.2);
+            padding: 18px 40px;
+        }
+
+        nav.scrolled a {
+            color: black;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 15px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            position: relative;
+            opacity: 0.8;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -6px;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a.active {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        nav a.active::after {
+            width: 100%;
+        }
+
+        /* ================= CONTACT DROPDOWN ================= */
+        .contact-dropdown {
+            position: relative;
+        }
+
+        .contact-trigger {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(15, 15, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(180, 140, 90, 0.3);
+            border-radius: 4px;
+            padding: 20px;
+            min-width: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-content.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content nav.scrolled & {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .contact-info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-info-item i {
+            width: 20px;
+            margin-right: 12px;
+            color: var(--accent);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .contact-info-item span {
+            flex: 1;
+        }
+
+        .contact-info-item a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: normal;
+            text-transform: none;
+        }
+
+        .contact-info-item a:hover {
+            color: var(--accent);
+        }
+
+        nav.scrolled .contact-info-item {
+            color: var(--text-dark);
+        }
+
+        nav.scrolled .contact-info-item a {
+            color: var(--text-dark);
+        }
+
+        nav.scrolled .contact-info-item a:hover {
+            color: var(--accent);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* ================= MAIN CONTENT ================= */
+        .main-content {
+            margin-top: 80px;
+            width: 100%;
+        }
+
+        /* ================= PAGE WRAPPERS ================= */
+        .page-wrapper {
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            display: none;
+            position: relative;
+        }
+
+        .page-wrapper.active {
+            display: block;
+        }
+
+        /* ================= HOME PAGE: FULL WIDTH SINGLE COLUMN ================= */
+
+
+        .artboard {
+            width: 100vw;
+            /* height: 100vh; */
+            /* overflow: hidden; */
+            position: relative;
+            margin: 0;
+            padding: 0;
+            border-bottom: 26px solid rgb(128, 128, 128);
+        }
+
+        .artboard:last-child {
+            border-bottom: none;
+        }
+
+        .artboard img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+
+        /* Optional: Add image captions */
+        .image-caption {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            background: rgba(15, 15, 18, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            color: var(--text-light);
+            max-width: 400px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        /* .artboard:hover .image-caption {
+            opacity: 1;
+            transform: translateY(0);
+        } */
+
+        .caption-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .caption-description {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        /* ================= OTHER PAGES: SINGLE IMAGE ================= */
+        .page-image {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .page-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* ================= ABOUT PAGE ================= */
+        .about-content {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: var(--paper);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .bio-section {
+            color: var(--text-dark);
+        }
+
+        .name {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        .title {
+            font-size: 18px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        /* ================= CONTACT DROPDOWN ================= */
+        .contact-dropdown {
+            position: relative;
+        }
+
+        .contact-trigger {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(180, 140, 90, 0.3);
+            border-radius: 4px;
+            padding: 20px;
+            min-width: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-content.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #333;
+            /* Dark text on white background */
+            font-size: 14px;
+        }
+
+        .contact-info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Bootstrap Icons styling */
+        .contact-info-item .bi {
+            width: 20px;
+            margin-right: 12px;
+            color: var(--accent);
+            /* Gold accent color for icons */
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .contact-info-item span {
+            flex: 1;
+            color: #333;
+            /* Dark text */
+        }
+
+        .contact-info-item a {
+            color: #333;
+            /* Dark text */
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: normal;
+            text-transform: none;
+        }
+
+        .contact-info-item a:hover {
+            color: var(--accent);
+            /* Gold on hover */
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 900px) {
+            .dropdown-content {
+                right: -100%;
+                min-width: 200px;
+            }
+
+            .contact-dropdown {
+                position: static;
+            }
+
+            .contact-info-item {
+                color: #333;
+                /* Ensure dark text on mobile */
+            }
+
+            .contact-info-item a {
+                color: #333;
+                /* Ensure dark text on mobile */
+            }
+        }
+
+        .bio-text {
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .bio-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .image-section {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-placeholder {
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(45deg, #e6e2dc 25%, #f5f2ed 25%, #f5f2ed 50%, #e6e2dc 50%, #e6e2dc 75%, #f5f2ed 75%, #f5f2ed);
+            background-size: 40px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            position: fixed;
+            bottom: 20px;
+            font-size: 12px;
+            opacity: 0.6;
+            z-index: 10;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 1100px) {
+            .nav-links {
+                gap: 30px;
+            }
+
+            .about-container {
+                gap: 40px;
+            }
+
+            .name {
+                font-size: 36px;
+            }
+
+            .dropdown-content {
+                right: -50%;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: rgba(15, 15, 18, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transition: right 0.4s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+            }
+
+            .artboard {
+                height: 80vh;
+                /* Slightly shorter on mobile */
+            }
+
+            .image-caption {
+                bottom: 20px;
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-content {
+                padding: 60px 40px;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .name {
+                font-size: 32px;
+            }
+
+            .bio-text {
+                font-size: 16px;
+            }
+
+            .profile-placeholder {
+                height: 400px;
+            }
+
+            .dropdown-content {
+                right: -100%;
+                min-width: 200px;
+            }
+
+            .contact-dropdown {
+                position: static;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 20px;
+            }
+
+            nav.scrolled {
+                padding: 15px 20px;
+            }
+
+            .main-content {
+                margin-top: 70px;
+            }
+
+            .artboard {
+                height: 70vh;
+            }
+
+            .about-content {
+                padding: 40px 20px;
+            }
+
+            .name {
+                font-size: 28px;
+            }
+
+            .title {
+                font-size: 16px;
+            }
+
+            .contact-item {
+                font-size: 14px;
+            }
+
+            .bio-text {
+                font-size: 15px;
+                line-height: 1.6;
+            }
+
+            .caption-title {
+                font-size: 18px;
+            }
+
+            .caption-description {
+                font-size: 13px;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <nav id="mainNav">
+        <div class="nav-container">
+            <a href="#" class="logo">Amanuel Tesfalem</a>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="nav-link active" data-page="home">PORTFOLIO</a>
+                <!-- <a href="#" class="nav-link" data-page="about">About</a> -->
+
+                <!-- Contact Dropdown -->
+                <!-- Add Bootstrap Icons to your head -->
+                <link rel="stylesheet"
+                    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+                <!-- Updated Contact Dropdown in your nav -->
+                <div class="contact-dropdown">
+                    <a href="#" class="nav-link contact-trigger" id="contactTrigger">Contact</a>
+                    <div class="dropdown-content" id="dropdownContent">
+                        <div class="contact-info-item">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>ADDIS ABABA, ETHIOPIA</span>
+                        </div>
+                        <div class="contact-info-item">
+                            <i class="bi bi-telephone"></i>
+                            <a href="tel:+251973862326">+251 973862326</a>
+                        </div>
+                        <div class="contact-info-item">
+                            <i class="bi bi-envelope"></i>
+                            <a href="mailto:amanueltesfalem808@gmail.com">amanueltesfalem808@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Home Page - Full Width Images, One Per Row -->
+        <div class="page-wrapper active" id="home-page">
+            <div class="artboard">
+                <img src="2.jpg">
+            </div>
+            <div class="artboard">
+                <img src="1.jpg">
+            </div>
+            
+        </div>
+
+        <!-- About Page -->
+        <!-- <div class="page-wrapper" id="about-page">
+            <div class="artboard">
+                <img src="1-02.jpg" alt="Design project 3">
+
+            </div>
+
+        </div> -->
+    </div>
+
+    <footer>© 2026 Amanuel Tesfalem – Portfolio</footer>
+
+    <script>
+        // Navigation functionality
+        const nav = document.getElementById('mainNav');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const navLinksAll = document.querySelectorAll('.nav-link');
+        const contactTrigger = document.getElementById('contactTrigger');
+        const dropdownContent = document.getElementById('dropdownContent');
+
+        // All page wrappers
+        const pageWrappers = document.querySelectorAll('.page-wrapper');
+
+        // Nav bar scroll effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Contact dropdown toggle
+        contactTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropdownContent.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            // Close mobile menu
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+
+            // Close contact dropdown
+            if (!contactTrigger.contains(e.target) && !dropdownContent.contains(e.target)) {
+                dropdownContent.classList.remove('active');
+            }
+        });
+
+        // Page switching function
+        function switchPage(pageId) {
+            // Hide all pages
+            pageWrappers.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show the selected page
+            document.getElementById(pageId + '-page').classList.add('active');
+
+            // Update active nav link
+            navLinksAll.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Close mobile menu and dropdown
+            navLinks.classList.remove('active');
+            dropdownContent.classList.remove('active');
+
+            // Scroll to top when switching pages
+            window.scrollTo(0, 0);
+        }
+
+        // Add click events to nav links (excluding contact trigger)
+        navLinksAll.forEach(link => {
+            if (link !== contactTrigger) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('data-page');
+                    switchPage(pageId);
+
+                    // Close dropdown if open
+                    dropdownContent.classList.remove('active');
+                });
+            }
+        });
+
+        // Initial scroll check
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+
+</body>
+
+</html>
